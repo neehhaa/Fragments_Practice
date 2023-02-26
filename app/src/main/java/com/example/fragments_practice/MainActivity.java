@@ -1,7 +1,9 @@
 package com.example.fragments_practice;
 
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
 import androidx.fragment.app.FragmentManager;
+import androidx.fragment.app.FragmentTransaction;
 
 import android.os.Bundle;
 import android.view.View;
@@ -19,17 +21,19 @@ public class MainActivity extends AppCompatActivity {
         btnFragB = findViewById(R.id.btnFragB);
         btnFragC = findViewById(R.id.btnFragC);
 
+        loadFrag(new FragmentB(),0);
+
         btnFragA.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                FragmentManager fm = getSupportFragmentManager();
-
+               loadFrag(new AFragment(),1);
             }
         });
 
         btnFragB.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                loadFrag(new FragmentB(),0);
 
             }
         });
@@ -37,8 +41,24 @@ public class MainActivity extends AppCompatActivity {
         btnFragC.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                loadFrag(new CFragment(),1);
 
             }
         });
+    }
+
+    public void loadFrag(Fragment fragment, int flag){
+        FragmentManager fm = getSupportFragmentManager();
+        FragmentTransaction ft =fm.beginTransaction();
+
+        if (flag == 0) {
+            ft.add(R.id.container, fragment);
+        }else {
+            ft.replace(R.id.container,fragment);
+        }
+
+
+        ft.commit();
+
     }
 }
